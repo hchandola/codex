@@ -293,7 +293,9 @@ const isSandboxExecAvailable: Promise<boolean> = fs
 
 async function getSandbox(runInSandbox: boolean): Promise<SandboxType> {
   if (runInSandbox) {
-    if (process.platform === "darwin") {
+    if (CODEX_UNSAFE_ALLOW_NO_SANDBOX) {
+	    return SandboxType.NONE;
+    } else if (process.platform === "darwin") {
       // On macOS we rely on the system-provided `sandbox-exec` binary to
       // enforce the Seatbelt profile.  However, starting with macOS 14 the
       // executable may be removed from the default installation or the user
